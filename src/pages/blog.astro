@@ -1,0 +1,23 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../layouts/Layout.astro";
+import PostPreview from "../components/PostPreview.astro";
+
+const posts = await getCollection("blog");
+---
+
+<Layout title="Blog">
+  <div class="mx-auto max-w-2xl">
+    <div class="space-y-16">
+      {
+        posts
+          .sort(
+            (a, b) =>
+              new Date(b.data.published).getTime() -
+              new Date(a.data.published).getTime()
+          )
+          .map((post) => <PostPreview post={post} />)
+      }
+    </div>
+  </div>
+</Layout>
